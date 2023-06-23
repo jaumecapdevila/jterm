@@ -1,13 +1,21 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import "./Prompt.css";
 
-export const Prompt = () => {
+export const Prompt = ({ addCommand }) => {
   const textarea = useRef(null);
 
   const [userPrompt, setUserPrompt] = useState("");
 
-  const handleChange = (event) => {
-    setUserPrompt(event.target.value);
+  const copyPrompt = (event) => {
+    setUserPrompt(event.target.value.trim());
+  };
+
+  const handleCommand = (event) => {
+    if (event.key === "Enter") {
+      const command = userPrompt.split(" ")[0];
+      addCommand(command);
+      setUserPrompt("");
+    }
   };
 
   useEffect(() => {
@@ -23,7 +31,8 @@ export const Prompt = () => {
         type="text"
         autoFocus
         value={userPrompt}
-        onChange={handleChange}
+        onKeyUp={handleCommand}
+        onChange={copyPrompt}
       ></textarea>
       <span>{userPrompt}</span>
       <b className="cursor">█</b>
