@@ -1,0 +1,25 @@
+textarea {
+  left: -1000px;
+  position: absolute;
+}
+
+.cursor {
+  font-size: 12px;
+  color: #63f2f1;
+  background-color: #63f2f1;
+  position: relative;
+  opacity: 1;
+  height: 1.5em;
+  transform: translateY(4px);
+  overflow: hidden;
+  text-indent: -5px;
+  display: inline-block;
+  text-decoration: blink;
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
