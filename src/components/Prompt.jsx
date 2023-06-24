@@ -42,7 +42,9 @@ export const Prompt = ({ record, clear }) => {
     const command = parts[0];
     const args = parts.slice(1);
 
-    if (!availableCommands.includes(command)) {
+    if (!command) {
+      record(prefix(""));
+    } else if (!availableCommands.includes(command)) {
       record(prefix(`command not found: ${command}`));
     } else {
       record(prefix(command));
