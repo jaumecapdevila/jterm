@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "./History.css";
 
 export const History = ({ history }) => {
   return (
     <section className="history">
       {history.map((entry) => (
-        <p key={entry.id}>{entry.command}</p>
+        <p className="history__command" key={entry.id}>
+          {entry.command}
+        </p>
       ))}
     </section>
   );

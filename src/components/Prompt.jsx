@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import "./Prompt.css";
+import PropTypes from "prop-types";
 
 export const Prompt = ({ addCommand }) => {
   const textarea = useRef(null);
@@ -8,6 +9,10 @@ export const Prompt = ({ addCommand }) => {
 
   const copyPrompt = (event) => {
     setUserPrompt(event.target.value.trim());
+  };
+
+  const focusPrompt = () => {
+    textarea.current.focus();
   };
 
   const handleCommand = (event) => {
@@ -19,9 +24,10 @@ export const Prompt = ({ addCommand }) => {
   };
 
   useEffect(() => {
-    if (textarea.current) {
-      textarea.current.focus();
-    }
+    window.addEventListener("click", focusPrompt);
+    return () => {
+      window.removeEventListener("click", focusPrompt);
+    };
   }, []);
 
   return (
@@ -38,4 +44,8 @@ export const Prompt = ({ addCommand }) => {
       <b className="cursor">█</b>
     </section>
   );
+};
+
+Prompt.propTypes = {
+  addCommand: PropTypes.func.isRequired,
 };
