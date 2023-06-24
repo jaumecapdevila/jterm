@@ -6,7 +6,7 @@ import { Prompt } from "./components/Prompt";
 function historyRecuder(state, action) {
   switch (action.type) {
     case "added":
-      return [...state, { id: action.id, command: action.command }];
+      return [...state, { id: state.length + 1, command: action.command }];
     case "cleared":
       return [];
     default:
@@ -17,18 +17,18 @@ function historyRecuder(state, action) {
 function App() {
   const [history, dispatch] = useReducer(historyRecuder, []);
 
-  function addCommand(command) {
-    dispatch({
-      type: "added",
-      id: history.length + 1,
-      command,
-    });
+  function record(command) {
+    dispatch({ type: "added", command });
+  }
+
+  function clear() {
+    dispatch({ type: "cleared" });
   }
 
   return (
     <>
       <History history={history} />
-      <Prompt addCommand={addCommand} />
+      <Prompt history={history} record={record} clear={clear} />
     </>
   );
 }
