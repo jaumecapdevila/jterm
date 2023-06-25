@@ -18,6 +18,10 @@ textarea {
   animation: blink 1s linear infinite;
 }
 
+.prompt__dir {
+  color: var(--color-dir);
+}
+
 @keyframes blink {
   50% {
     opacity: 0;

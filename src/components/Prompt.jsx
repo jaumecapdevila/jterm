@@ -17,7 +17,7 @@ export const Prompt = ({ record, clear }) => {
   const textarea = useRef(null);
 
   const [currentPath, setCurrentPath] = useState("~");
-  const [promptPrefix, setPromptPrefix] = useState("~ $ ");
+  const [promptPrefix, setPromptPrefix] = useState("~ $");
   const [userPrompt, setUserPrompt] = useState("");
 
   const copyPrompt = (event) => {
@@ -90,7 +90,7 @@ export const Prompt = ({ record, clear }) => {
     }
 
     setCurrentPath(path);
-    setPromptPrefix(`${path} $ `);
+    setPromptPrefix(`${path} $`);
 
     return "";
   };
@@ -122,6 +122,8 @@ export const Prompt = ({ record, clear }) => {
     };
   }, []);
 
+  const [promptDir, promptSymbol] = promptPrefix.split(" ");
+
   return (
     <section className="prompt">
       <textarea
@@ -132,10 +134,9 @@ export const Prompt = ({ record, clear }) => {
         onKeyUp={handleUserPrompt}
         onChange={copyPrompt}
       ></textarea>
-      <span>
-        {promptPrefix}
-        {userPrompt}
-      </span>
+      <span className="prompt__dir">{promptDir} </span>
+      <span className="prompt__symbol">{promptSymbol} </span>
+      <span className="prompt__input">{userPrompt}</span>
       <b className="cursor">█</b>
     </section>
   );
