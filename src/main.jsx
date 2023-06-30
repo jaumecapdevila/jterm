@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "@fontsource/ubuntu-mono";
 import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.createRoot(document.getElementById("terminal")).render(
   <React.StrictMode>
     <App />
   </React.StrictMode>

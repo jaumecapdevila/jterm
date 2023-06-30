@@ -1,3 +1,7 @@
+#prompt {
+  margin-top: 10px;
+}
+
 textarea {
   left: -1000px;
   position: absolute;

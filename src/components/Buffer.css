@@ -1,0 +1,9 @@
+.buffer__entry {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.buffer__error {
+  color: var(--color-error);
+}

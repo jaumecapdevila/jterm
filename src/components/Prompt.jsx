@@ -13,7 +13,7 @@ export const FILESYSTEM = {
   },
 };
 
-export const Prompt = ({ record, clear }) => {
+export const Prompt = ({ addCommand, addOutput, addError, clear }) => {
   const textarea = useRef(null);
 
   const [currentPath, setCurrentPath] = useState("~");
@@ -29,10 +29,6 @@ export const Prompt = ({ record, clear }) => {
     textarea.current.focus();
   };
 
-  const prefix = (prompt) => {
-    return `${promptPrefix}${prompt}`;
-  };
-
   const handleUserPrompt = (event) => {
     if (event.key !== "Enter") {
       return;
@@ -43,11 +39,11 @@ export const Prompt = ({ record, clear }) => {
     const args = parts.slice(1);
 
     if (!command) {
-      record(prefix(""));
+      addCommand("");
     } else if (!availableCommands.includes(command)) {
-      record(prefix(`command not found: ${command}`));
+      addError(`command not found: ${command}`);
     } else {
-      record(prefix(command));
+      addCommand(`${command} ${args.join(" ")}`);
       execute(command, args);
     }
 
@@ -112,7 +108,9 @@ export const Prompt = ({ record, clear }) => {
         break;
     }
 
-    record(output);
+    if (output) {
+      addOutput(output);
+    }
   };
 
   useEffect(() => {
@@ -125,7 +123,7 @@ export const Prompt = ({ record, clear }) => {
   const [promptDir, promptSymbol] = promptPrefix.split(" ");
 
   return (
-    <section className="prompt">
+    <div id="prompt">
       <textarea
         ref={textarea}
         type="text"
@@ -138,11 +136,12 @@ export const Prompt = ({ record, clear }) => {
       <span className="prompt__symbol">{promptSymbol} </span>
       <span className="prompt__input">{userPrompt}</span>
       <b className="cursor">█</b>
-    </section>
+    </div>
   );
 };
 
 Prompt.propTypes = {
-  record: PropTypes.func.isRequired,
+  addCommand: PropTypes.func.isRequired,
+  addOutput: PropTypes.func.isRequired,
   clear: PropTypes.func.isRequired,
 };

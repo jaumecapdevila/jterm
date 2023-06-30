@@ -1,13 +1,20 @@
 import "./App.css";
 import React, { useReducer } from "react";
-import { History } from "./components/History";
+import { Buffer } from "./components/Buffer";
 import { Prompt } from "./components/Prompt";
 
-function historyRecuder(state, action) {
+function bufferReducer(state, action) {
   switch (action.type) {
-    case "added":
-      return [...state, { id: state.length + 1, command: action.command }];
-    case "cleared":
+    case "entry":
+      return [
+        ...state,
+        {
+          id: state.length + 1,
+          type: action.entry.type,
+          value: action.entry.value,
+        },
+      ];
+    case "clear":
       return [];
     default:
       return state;
@@ -15,20 +22,33 @@ function historyRecuder(state, action) {
 }
 
 function App() {
-  const [history, dispatch] = useReducer(historyRecuder, []);
+  const [entries, dispatch] = useReducer(bufferReducer, []);
 
-  function record(command) {
-    dispatch({ type: "added", command });
+  function addCommand(command) {
+    dispatch({ type: "entry", entry: { type: "command", value: command } });
+  }
+
+  function addError(error) {
+    dispatch({ type: "entry", entry: { type: "error", value: error } });
+  }
+
+  function addOutput(output) {
+    dispatch({ type: "entry", entry: { type: "output", value: output } });
   }
 
   function clear() {
-    dispatch({ type: "cleared" });
+    dispatch({ type: "clear" });
   }
 
   return (
     <>
-      <History history={history} />
-      <Prompt history={history} record={record} clear={clear} />
+      <Buffer entries={entries} />
+      <Prompt
+        addCommand={addCommand}
+        addOutput={addOutput}
+        addError={addError}
+        clear={clear}
+      />
     </>
   );
 }
